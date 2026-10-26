@@ -11,11 +11,13 @@ animate();
 function animate() {
     window.requestAnimationFrame(animate);
 
+    handleControls()
+
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     player.update();
-    player2.update()
+    //player2.update()
 
     const now = performance.now();
     const fps = 1000 / (now - prevTime);
