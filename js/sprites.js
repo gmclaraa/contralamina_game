@@ -14,6 +14,14 @@ class Sprite {
     draw() {
         ctx.fillStyle = 'white';
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        if(this.attackBox){
+            ctx.fillStyle = "red" 
+            ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
+        }
+    }
+
+    update(){
+        this.draw()
     }
 }
 
@@ -29,18 +37,31 @@ class Fighter extends Sprite {
         this.width = dimensions.width
         this.height = dimensions.height
 
+        this.attackBox = {
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
+            width:125,
+            height:50
+        }
+
         this.lastKeyPressed
         this.onGround
     }
 
     update() {
-        this.onGround = Math.ceil(this.position.y + this.height) >= canvas.height
+        if (Math.ceil(this.position.y + this.height) >= canvas.height) {
+            this.onGround = true
+        } else {
+            this.onGround = false
+        }
 
-        if (this.onGround && this.velocity.y >=0) {
+        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
             this.position.y = canvas.height - this.height
             this.velocity.y = 0
         } else {
-            this.velocity.y += gravity
+            if (!this.onGround) this.velocity.y += gravity
         }
 
         this.position.x += this.velocity.x
@@ -51,7 +72,7 @@ class Fighter extends Sprite {
 
     jump() {
         if (!this.onGround) return
-            this.velocity.y = -16
+        this.velocity.y = -16
     }
 }
 
