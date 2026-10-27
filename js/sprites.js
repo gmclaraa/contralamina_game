@@ -14,13 +14,13 @@ class Sprite {
     draw() {
         ctx.fillStyle = 'white';
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-        if(this.attackBox){
-            ctx.fillStyle = "red" 
+        if (this.attackBox) {
+            ctx.fillStyle = "red"
             ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
         }
     }
 
-    update(){
+    update() {
         this.draw()
     }
 }
@@ -42,8 +42,8 @@ class Fighter extends Sprite {
                 x: this.position.x,
                 y: this.position.y
             },
-            width:125,
-            height:50
+            width: 125,
+            height: 50
         }
 
         this.lastKeyPressed
@@ -66,6 +66,9 @@ class Fighter extends Sprite {
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
+
+        this.attackBox.position.x = this.position.x
+        this.attackBox.position.y = this.position.y
 
         this.draw()
     }
