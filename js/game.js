@@ -1,4 +1,4 @@
-const canvasWidth = 1824;
+const canvasWidth = 1024;
 const canvasHeight = 576;
 
 canvas.width = canvasWidth;
@@ -16,6 +16,7 @@ function animate() {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    background.update()
     player.update();
     //player2.update()
 

@@ -1,21 +1,32 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
+const backgroundSpritePath = './assets/background/placeholder.png'
 
 const gravity = 0.6;
 
 class Sprite {
-    constructor({ position, velocity, dimensions }) {
+    constructor({ position, velocity, dimensions = { width: 0, height: 0 }, source }) {
         this.position = position;
         this.velocity = velocity;
         this.width = dimensions.width;
         this.height = dimensions.height;
+
+        if (source) {
+            this.image = new Image()
+            this.image.src = source
+        }
     }
 
     draw() {
-        ctx.fillStyle = 'white';
-        ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-        if (this.attackBox) {
-            ctx.fillStyle = "red"
+        if (this.image) {
+            ctx.drawImage(this.image, this.position.x, this.position.y, this.width, this.height)
+        } else {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+        }
+
+        if (this.isAttacking) {
+            ctx.fillStyle = 'red'
             ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height)
         }
     }
@@ -45,6 +56,8 @@ class Fighter extends Sprite {
             width: 125,
             height: 50
         }
+        this.isAttacking = false
+        this.onAttackCoolDown = false
 
         this.lastKeyPressed
         this.onGround
@@ -73,6 +86,20 @@ class Fighter extends Sprite {
         this.draw()
     }
 
+    attack() {
+        if (this.onAttackCoolDown) return
+        this.isAttacking = true
+        this.onAttackCoolDown = true
+
+        setTimeout(() => {
+            this.isAttacking = false
+        }, 100)
+
+        setTimeout(() => {
+            this.onAttackCoolDown = false
+        }, 500)
+    }
+
     jump() {
         if (!this.onGround) return
         this.velocity.y = -16
@@ -89,4 +116,11 @@ const player2 = new Fighter({
     position: { x: 500, y: 20 },
     velocity: { x: 0, y: 10 },
     dimensions: { width: 50, height: 200 }
-});
+})
+
+const background = new Sprite({
+    position: { x: 0, y: 0 },
+    velocity: { x: 0, y: 0 },
+    dimensions: { width: 1024, height: 576 },
+    source: backgroundSpritePath
+})
