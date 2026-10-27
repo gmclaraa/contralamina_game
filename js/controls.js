@@ -56,7 +56,7 @@ function handleControls() {
         }
 
         if (keys.w.pressed) {
-            player.velocity.y = -7
+            player.jump()
         }
     }
 }
