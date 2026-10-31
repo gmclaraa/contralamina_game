@@ -9,7 +9,7 @@ class Sprite {
         this.position = position;
         this.velocity = velocity;
         this.width = dimensions.width;
-        this.height = dimensions.height;
+        this.height = dimensions.height
 
         if (source) {
             this.image = new Image()
